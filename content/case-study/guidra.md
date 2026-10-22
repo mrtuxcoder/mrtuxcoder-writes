@@ -1,6 +1,6 @@
 ---
-title: "[Test Fixture] Guidra Learning Platform Architecture"
-description: "A test fixture testing Markdown layout and sub-heading structure for education platforms."
+title: "Guidra: Learning Platform Infrastructure"
+description: "Architecture breakdown of a distributed educational platform built for fast interactive feedback."
 date: "2026-10-15"
 tags:
   - Architecture
@@ -10,13 +10,13 @@ draft: false
 
 ## Introduction
 
-Test fixture for Guidra architecture verification.
+Guidra is an interactive learning platform designed to minimize latency for code evaluation exercises. The service separates stateful assessment logic from stateless presentation tiers.
 
-### Database Strategy
+### Storage Strategy
 
-* Relational storage for transactional state.
-* In-memory cache for fast session access.
-* Object storage for media assets.
+* **Relational Database**: Transactional storage for user progress and grading records.
+* **In-Memory Cache**: Low-latency session management and rate limiting.
+* **Object Store**: Immutable static media and code challenge archives.
 
 ```typescript
 interface SystemConfig {

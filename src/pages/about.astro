@@ -9,22 +9,22 @@ import { siteConfig } from '../site.config';
 >
   <div class="mx-auto max-w-reading">
     <!-- Header -->
-    <header class="border-b border-primary/10 pb-8 mb-8">
-      <div class="mb-3 flex items-center gap-2">
-        <a href="/" class="text-xs text-secondary hover:text-primary transition-colors flex items-center gap-1">
+    <header class="border-b border-primary/10 pb-6 mb-6">
+      <div class="mb-3.5 flex items-center gap-1.5 text-xs text-secondary">
+        <a href="/" class="hover:text-primary transition-colors flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           <span>Home</span>
         </a>
-        <span class="text-primary/20 text-xs">/</span>
-        <span class="text-xs text-secondary font-medium">About</span>
+        <span class="text-primary/20">/</span>
+        <span class="text-primary font-medium">About</span>
       </div>
 
-      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
         About this publication
       </h1>
-      <p class="mt-3 text-base sm:text-lg text-secondary leading-relaxed">
+      <p class="mt-2 text-sm sm:text-base text-secondary leading-relaxed">
         A static publishing space for infrastructure case studies, technical guides, homelab engineering, and systems reflections.
       </p>
     </header>
@@ -32,30 +32,30 @@ import { siteConfig } from '../site.config';
     <!-- Content -->
     <div class="prose prose-neutral max-w-none text-foreground space-y-6">
       <section>
-        <h2 class="text-xl font-semibold text-primary mb-3">Purpose & Focus</h2>
-        <p class="text-secondary leading-relaxed">
+        <h2 class="text-lg font-semibold text-primary mb-2.5">Purpose & Focus</h2>
+        <p class="text-sm sm:text-base text-secondary leading-relaxed">
           This website serves as the primary publishing channel for in-depth engineering writing by <strong class="text-primary font-medium">{siteConfig.author}</strong>. While my main portfolio provides an executive summary of my background and projects, this platform exists for the long-form technical documentation behind them.
         </p>
       </section>
 
       <section class="border-t border-primary/10 pt-6">
-        <h2 class="text-xl font-semibold text-primary mb-3">Content Categories</h2>
-        <div class="space-y-4">
+        <h2 class="text-lg font-semibold text-primary mb-3">Content Categories</h2>
+        <div class="space-y-3">
           <div class="rounded-lg border border-primary/10 bg-surface/50 p-4">
             <h3 class="text-sm font-semibold text-primary">Case Studies</h3>
-            <p class="mt-1 text-xs sm:text-sm text-secondary">
+            <p class="mt-1 text-xs sm:text-sm text-secondary leading-relaxed">
               End-to-end architecture reviews, network topologies, self-hosted deployment blueprints, and system reliability analysis.
             </p>
           </div>
           <div class="rounded-lg border border-primary/10 bg-surface/50 p-4">
             <h3 class="text-sm font-semibold text-primary">Blogs & Tutorials</h3>
-            <p class="mt-1 text-xs sm:text-sm text-secondary">
+            <p class="mt-1 text-xs sm:text-sm text-secondary leading-relaxed">
               Step-by-step technical guides on Linux kernel tuning, container orchestration, CI/CD pipelines, reverse proxies, and automation.
             </p>
           </div>
           <div class="rounded-lg border border-primary/10 bg-surface/50 p-4">
             <h3 class="text-sm font-semibold text-primary">Thoughts</h3>
-            <p class="mt-1 text-xs sm:text-sm text-secondary">
+            <p class="mt-1 text-xs sm:text-sm text-secondary leading-relaxed">
               Concise notes on engineering philosophy, boring technology, tooling ergonomics, and learning in public.
             </p>
           </div>
@@ -63,8 +63,8 @@ import { siteConfig } from '../site.config';
       </section>
 
       <section class="border-t border-primary/10 pt-6">
-        <h2 class="text-xl font-semibold text-primary mb-3">Portfolio Connection</h2>
-        <p class="text-secondary leading-relaxed">
+        <h2 class="text-lg font-semibold text-primary mb-2.5">Portfolio Connection</h2>
+        <p class="text-sm sm:text-base text-secondary leading-relaxed">
           For project highlights, work history, and contact details, visit my main portfolio:
         </p>
         <div class="mt-4">
@@ -72,10 +72,10 @@ import { siteConfig } from '../site.config';
             href={siteConfig.portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-surface px-4 py-2 text-sm font-medium text-primary hover:border-primary/40 hover:bg-primary/[0.04] transition-colors"
+            class="h-9 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-surface px-3.5 text-xs sm:text-sm font-medium text-primary hover:border-primary/30 hover:bg-primary/[0.04] transition-colors"
           >
             <span>Visit {siteConfig.portfolioLabel}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
@@ -84,7 +84,7 @@ import { siteConfig } from '../site.config';
 
       <section class="border-t border-primary/10 pt-6 text-xs text-secondary">
         <h3 class="text-xs font-semibold uppercase tracking-wider text-secondary mb-2">Publishing Architecture</h3>
-        <p>
+        <p class="leading-relaxed">
           This website is statically generated with Astro and deployed on Cloudflare Pages. It runs without a database, external CMS, or client-side runtime bloat. All content is written in Markdown and compiled into accessible semantic HTML.
         </p>
       </section>

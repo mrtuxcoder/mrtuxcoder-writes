@@ -47,18 +47,18 @@ const articles = await getArticlesByCategory(category);
   title={`${title} | ${siteConfig.siteName}`}
   description={description}
 >
-  <div class="space-y-8">
+  <div class="space-y-6">
     <!-- Category Header -->
-    <header class="border-b border-primary/10 pb-8">
-      <div class="mb-3 flex items-center gap-2">
-        <a href="/" class="text-xs text-secondary hover:text-primary transition-colors flex items-center gap-1">
+    <header class="border-b border-primary/10 pb-6">
+      <div class="mb-3.5 flex items-center gap-1.5 text-xs text-secondary">
+        <a href="/" class="hover:text-primary transition-colors flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           <span>Home</span>
         </a>
-        <span class="text-primary/20 text-xs">/</span>
-        <span class="text-xs text-secondary font-medium">Category</span>
+        <span class="text-primary/20">/</span>
+        <span class="text-primary font-medium">{title}</span>
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-4">

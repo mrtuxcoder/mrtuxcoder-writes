@@ -4,22 +4,22 @@ import { siteConfig } from '../site.config';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="border-t border-primary/10 bg-surface/50 py-10 px-4 sm:px-8 mt-auto text-xs text-secondary">
+<footer class="border-t border-primary/10 bg-surface/40 py-8 px-4 sm:px-8 mt-auto text-xs text-secondary">
   <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
     <!-- Left Copyright & Attribution -->
-    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-center sm:text-left">
       <span class="font-medium text-primary">
         {siteConfig.author}
       </span>
-      <span class="hidden sm:inline text-primary/20">|</span>
+      <span class="text-primary/20">|</span>
       <span>
         © {currentYear} {siteConfig.siteName}. All rights reserved.
       </span>
     </div>
 
     <!-- Right Links -->
-    <div class="flex items-center gap-5">
-      <a href="/rss.xml" class="hover:text-primary transition-colors flex items-center gap-1">
+    <div class="flex items-center gap-4 sm:gap-5">
+      <a href="/rss.xml" class="hover:text-primary transition-colors flex items-center gap-1.5">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 11a9 9 0 0 1 9 9"></path>
           <path d="M4 4a16 16 0 0 1 16 16"></path>

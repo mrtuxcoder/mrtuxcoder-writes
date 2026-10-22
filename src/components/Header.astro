@@ -8,30 +8,34 @@ interface Props {
 const { currentPath = '' } = Astro.props;
 ---
 
-<header class="border-b border-primary/10 bg-background/95 backdrop-blur sticky top-0 z-40">
+<header class="sticky top-0 z-40 w-full border-b border-primary/10 bg-background/95 backdrop-blur">
   <div class="flex h-16 items-center justify-between px-4 sm:px-8">
-    <!-- Brand -->
-    <div class="flex items-center gap-3">
-      <a href="/" class="group flex items-center gap-2 text-base font-semibold text-primary transition-opacity hover:opacity-85">
-        <span class="h-2.5 w-2.5 rounded-full bg-accent-emerald shrink-0" aria-hidden="true"></span>
-        <span class="tracking-tight">{siteConfig.siteName}</span>
+    <!-- Brand Group -->
+    <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+      <a
+        href="/"
+        class="group flex items-center gap-2 text-sm sm:text-base font-semibold text-primary transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 rounded-md"
+        aria-label="Homepage"
+      >
+        <span class="h-2 w-2 rounded-full bg-accent-emerald shrink-0" aria-hidden="true"></span>
+        <span class="tracking-tight whitespace-nowrap">{siteConfig.siteName}</span>
       </a>
-      <span class="hidden md:inline-flex items-center rounded-full border border-primary/10 bg-primary/[0.03] px-2 py-0.5 text-[11px] font-medium text-secondary">
+      <span class="hidden sm:inline-flex items-center rounded-full border border-primary/10 bg-primary/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-secondary uppercase tracking-wider shrink-0 select-none">
         Publishing
       </span>
     </div>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-6 text-sm font-medium" aria-label="Main Navigation">
+    <nav class="hidden lg:flex items-center gap-1.5 xl:gap-2" aria-label="Main Navigation">
       {siteConfig.navLinks.map((link) => {
         const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
         return (
           <a
             href={link.href}
-            class={`transition-colors py-1 ${
+            class={`inline-flex items-center justify-center h-8 px-2.5 xl:px-3 rounded-md text-xs sm:text-sm font-medium transition-colors ${
               isActive
-                ? 'text-primary font-semibold border-b-2 border-primary'
-                : 'text-secondary hover:text-primary'
+                ? 'bg-primary/[0.07] text-primary font-semibold'
+                : 'text-secondary hover:text-primary hover:bg-primary/[0.03]'
             }`}
           >
             {link.label}
@@ -41,19 +45,19 @@ const { currentPath = '' } = Astro.props;
     </nav>
 
     <!-- Right Actions -->
-    <div class="flex items-center gap-2 sm:gap-3">
+    <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
       <!-- Search Trigger Button -->
       <button
         type="button"
         data-open-search
-        class="inline-flex items-center gap-1.5 rounded-md border border-primary/15 bg-surface px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:border-primary/30 transition-colors"
+        class="h-8 sm:h-9 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-surface px-2.5 sm:px-3 text-xs font-medium text-secondary hover:text-primary hover:border-primary/30 transition-colors focus:outline-none focus:ring-1 focus:ring-primary/20"
         aria-label="Search articles"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <span class="hidden sm:inline">Search</span>
-        <kbd class="hidden sm:inline-block rounded border border-primary/15 bg-background px-1 py-0.2 font-mono text-[10px] text-secondary">
+        <kbd class="hidden sm:inline-block rounded border border-primary/15 bg-background px-1 py-0.5 font-mono text-[10px] text-secondary leading-none">
           /
         </kbd>
       </button>
@@ -63,11 +67,11 @@ const { currentPath = '' } = Astro.props;
         href={siteConfig.portfolioUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-transparent px-3 py-1 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
+        class="h-8 sm:h-9 hidden sm:inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-surface px-3 text-xs font-medium text-primary hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/20"
         title="Visit Portfolio"
       >
         <span>{siteConfig.portfolioLabel}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-secondary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
       </a>
@@ -76,14 +80,14 @@ const { currentPath = '' } = Astro.props;
       <button
         type="button"
         id="mobile-menu-btn"
-        class="md:hidden inline-flex items-center justify-center rounded-md p-1.5 text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none"
+        class="h-8 w-8 sm:h-9 sm:w-9 lg:hidden inline-flex items-center justify-center rounded-md border border-primary/15 bg-surface text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none focus:ring-1 focus:ring-primary/20 transition-colors"
         aria-label="Toggle navigation menu"
         aria-expanded="false"
       >
-        <svg id="hamburger-icon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="hamburger-icon" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <svg id="close-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="close-icon" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
@@ -91,7 +95,7 @@ const { currentPath = '' } = Astro.props;
   </div>
 
   <!-- Mobile Dropdown Menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-primary/10 bg-background px-4 py-4 space-y-2">
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-primary/10 bg-background px-4 py-3 space-y-1">
     {siteConfig.navLinks.map((link) => {
       const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
       return (
@@ -99,20 +103,20 @@ const { currentPath = '' } = Astro.props;
           href={link.href}
           class={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
             isActive
-              ? 'bg-primary/5 text-primary font-semibold'
-              : 'text-secondary hover:text-primary hover:bg-primary/[0.02]'
+              ? 'bg-primary/[0.07] text-primary font-semibold'
+              : 'text-secondary hover:text-primary hover:bg-primary/[0.03]'
           }`}
         >
           {link.label}
         </a>
       );
     })}
-    <div class="pt-2 border-t border-primary/10">
+    <div class="pt-2 mt-2 border-t border-primary/10">
       <a
         href={siteConfig.portfolioUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-primary hover:bg-primary/5"
+        class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-primary hover:bg-primary/5 transition-colors"
       >
         <span>Visit {siteConfig.portfolioLabel}</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

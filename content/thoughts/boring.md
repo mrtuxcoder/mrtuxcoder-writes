@@ -1,6 +1,6 @@
 ---
-title: "[Test Fixture] In Praise of Boring Technology"
-description: "A test fixture testing essay styling, quotes, and philosophical reflections."
+title: "In Praise of Boring Technology"
+description: "Why choosing mature, well-understood tools remains the highest leverage decision in systems engineering."
 date: "2026-10-17"
 tags:
   - Philosophy
@@ -16,9 +16,9 @@ Boring technology is software whose failure modes are well-understood.
 
 ### What Makes a Technology "Boring"?
 
-* Established error logs with searchable solutions.
-* Predictable memory and CPU characteristics.
-* Minimal breaking changes between minor versions.
-* Standardized Unix utilities like `cron`, `systemd`, and `nginx`.
+* **Established error logs**: Problems have known solutions documented across the web.
+* **Predictable performance**: Resource usage scales linearly with predictable memory footprints.
+* **Stability**: Minimal breaking changes between minor versions.
+* **Standardized interfaces**: Relies on Unix primitives like `cron`, `systemd`, POSIX signals, and plain text configuration.
 
-When building production infrastructure, invest your novelty tokens where they directly differentiate your work.
+When designing production systems, spend novelty tokens strictly where they solve unique domain challenges.

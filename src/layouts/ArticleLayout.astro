@@ -25,37 +25,43 @@ const categoryTitle = categoryConfig?.title || article.category;
   articleTags={article.tags}
 >
   <article class="mx-auto max-w-reading">
-    <!-- Breadcrumb / Back Link -->
-    <div class="mb-6 flex items-center gap-2 text-xs text-secondary">
-      <a href={`/${article.category}`} class="inline-flex items-center gap-1 hover:text-primary transition-colors">
+    <!-- Breadcrumb -->
+    <div class="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-secondary">
+      <a href="/" class="hover:text-primary transition-colors flex items-center gap-1">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
-        <span>Back to {categoryTitle}</span>
+        <span>Home</span>
       </a>
+      <span class="text-primary/20">/</span>
+      <a href={`/${article.category}`} class="hover:text-primary transition-colors">
+        {categoryTitle}
+      </a>
+      <span class="text-primary/20">/</span>
+      <span class="text-primary font-medium truncate max-w-[180px] sm:max-w-xs">{article.title}</span>
     </div>
 
     <!-- Article Header -->
-    <header class="border-b border-primary/10 pb-8 mb-8">
+    <header class="border-b border-primary/10 pb-6 mb-6">
       <!-- Category Capsule -->
       <div class="flex flex-wrap items-center gap-2 mb-3">
         <a
           href={`/${article.category}`}
-          class="inline-flex items-center gap-1.5 rounded-full border border-primary/10 bg-primary/[0.03] px-3 py-1 text-xs font-medium text-foreground/90 transition-colors hover:bg-primary/[0.06] hover:border-primary/20"
+          class="inline-flex min-h-[24px] items-center gap-1.5 rounded-full border border-primary/10 bg-primary/[0.03] px-2.5 py-0.5 text-xs font-medium text-foreground/90 transition-colors hover:bg-primary/[0.06] hover:border-primary/20"
         >
-          <span class="h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" aria-hidden="true"></span>
+          <span class="h-1.5 w-1.5 rounded-full bg-accent-emerald shrink-0" aria-hidden="true"></span>
           <span>{categoryTitle}</span>
         </a>
 
         {article.draft && (
-          <span class="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+          <span class="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-2 py-0.2 text-[10px] font-medium text-amber-800">
             Draft Preview
           </span>
         )}
       </div>
 
       <!-- Article Title -->
-      <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-primary leading-tight sm:leading-snug">
+      <h1 class="text-2xl sm:text-3.5xl font-bold tracking-tight text-primary leading-tight sm:leading-snug">
         {article.title}
       </h1>
 
@@ -67,7 +73,7 @@ const categoryTitle = categoryConfig?.title || article.category;
       )}
 
       <!-- Meta Row -->
-      <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-secondary">
+      <div class="mt-4 flex flex-wrap items-center gap-2.5 text-xs sm:text-sm text-secondary">
         {article.formattedDate && (
           <time datetime={article.date} class="text-secondary font-medium">
             {article.formattedDate}
@@ -104,11 +110,11 @@ const categoryTitle = categoryConfig?.title || article.category;
     <!-- Article Footer / Navigation -->
     <footer class="mt-12 border-t border-primary/10 pt-8">
       <!-- Previous / Next Navigation -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {prevArticle ? (
           <a
             href={prevArticle.url}
-            class="group flex flex-col rounded-lg border border-primary/10 p-4 transition-colors hover:border-primary/30 hover:bg-surface/50"
+            class="group flex flex-col rounded-lg border border-primary/10 bg-surface/40 p-4 transition-colors hover:border-primary/25 hover:bg-surface"
           >
             <span class="flex items-center gap-1 text-xs text-secondary mb-1">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -127,7 +133,7 @@ const categoryTitle = categoryConfig?.title || article.category;
         {nextArticle ? (
           <a
             href={nextArticle.url}
-            class="group flex flex-col items-end text-right rounded-lg border border-primary/10 p-4 transition-colors hover:border-primary/30 hover:bg-surface/50"
+            class="group flex flex-col items-end text-right rounded-lg border border-primary/10 bg-surface/40 p-4 transition-colors hover:border-primary/25 hover:bg-surface"
           >
             <span class="flex items-center gap-1 text-xs text-secondary mb-1">
               <span>Next Article</span>
@@ -148,7 +154,7 @@ const categoryTitle = categoryConfig?.title || article.category;
       <div class="mt-8 text-center">
         <a
           href={`/${article.category}`}
-          class="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-transparent px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
+          class="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-surface px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
         >
           <span>View all {categoryTitle}</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

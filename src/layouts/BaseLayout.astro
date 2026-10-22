@@ -1,0 +1,77 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchModal from '../components/SearchModal.astro';
+import { siteConfig } from '../site.config';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  articleTags?: string[];
+}
+
+const {
+  title,
+  description = siteConfig.siteDescription,
+  canonicalUrl = Astro.url.href,
+  ogType = 'website',
+  publishedTime,
+  articleTags = [],
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${siteConfig.siteName}` : siteConfig.siteTitle;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.author} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- RSS feed auto-discovery -->
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.siteName} RSS Feed`} href="/rss.xml" />
+  </head>
+  <body class="bg-background text-foreground antialiased selection:bg-primary/10">
+    <div class="mx-auto flex min-h-screen max-w-5xl flex-col border-x border-primary/10 bg-background shadow-xs">
+      <Header currentPath={currentPath} />
+      <main class="flex-1 px-4 sm:px-8 py-8 sm:py-12">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+
+    <!-- Search Modal -->
+    <SearchModal />
+  </body>
+</html>

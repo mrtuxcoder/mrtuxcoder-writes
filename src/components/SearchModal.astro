@@ -1,0 +1,196 @@
+---
+---
+
+<div id="search-modal" class="fixed inset-0 z-50 hidden bg-primary/40 backdrop-blur-sm p-4 sm:p-6 md:p-20 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="search-label">
+  <div class="relative mx-auto max-w-2xl rounded-xl border border-primary/15 bg-background p-4 shadow-xl sm:p-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between border-b border-primary/10 pb-3">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span id="search-label" class="text-xs font-semibold uppercase tracking-wider text-secondary">Search Articles</span>
+      </div>
+      <button id="close-search-btn" type="button" class="rounded p-1 text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none" aria-label="Close search">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Input -->
+    <div class="mt-3">
+      <input
+        type="search"
+        id="search-input"
+        placeholder="Type keywords, topics, or tags..."
+        class="w-full rounded-md border border-primary/15 bg-surface px-3.5 py-2.5 text-sm text-primary placeholder-secondary/70 focus:border-primary/40 focus:outline-none focus:ring-1 focus:ring-primary/20"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Results Area -->
+    <div id="search-results" class="mt-4 max-h-80 overflow-y-auto divide-y divide-primary/5" role="listbox">
+      <p id="search-empty-state" class="py-6 text-center text-xs text-secondary">
+        Search titles, descriptions, and tags. Type to begin.
+      </p>
+    </div>
+
+    <!-- Footer shortcut note -->
+    <div class="mt-4 flex items-center justify-between border-t border-primary/10 pt-3 text-[11px] text-secondary">
+      <span>Press <kbd class="rounded border border-primary/20 bg-surface px-1 py-0.5 font-mono text-[10px]">ESC</kbd> to exit</span>
+      <span>Client-side search</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  let searchIndex: Array<{
+    title: string;
+    description: string;
+    url: string;
+    category: string;
+    tags: string[];
+    date?: string;
+  }> | null = null;
+
+  const modal = document.getElementById('search-modal');
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const resultsContainer = document.getElementById('search-results');
+  const emptyState = document.getElementById('search-empty-state');
+  const closeBtn = document.getElementById('close-search-btn');
+
+  async function loadSearchIndex() {
+    if (!searchIndex) {
+      try {
+        const res = await fetch('/search.json');
+        if (res.ok) {
+          searchIndex = await res.json();
+        }
+      } catch (e) {
+        console.error('Failed to load search index:', e);
+      }
+    }
+  }
+
+  function openSearch() {
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    loadSearchIndex();
+    setTimeout(() => {
+      input?.focus();
+    }, 50);
+  }
+
+  function closeSearch() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+    if (input) input.value = '';
+    renderResults([]);
+  }
+
+  function performSearch(query: string) {
+    if (!searchIndex || !query.trim()) {
+      renderResults([]);
+      return;
+    }
+
+    const q = query.toLowerCase().trim();
+    const filtered = searchIndex.filter((item) => {
+      const matchTitle = item.title.toLowerCase().includes(q);
+      const matchDesc = item.description?.toLowerCase().includes(q) || false;
+      const matchCategory = item.category.toLowerCase().includes(q);
+      const matchTags = item.tags.some((t) => t.toLowerCase().includes(q));
+      return matchTitle || matchDesc || matchCategory || matchTags;
+    });
+
+    renderResults(filtered, q);
+  }
+
+  function renderResults(items: any[], query = '') {
+    if (!resultsContainer) return;
+
+    if (!query) {
+      resultsContainer.innerHTML = `
+        <p class="py-6 text-center text-xs text-secondary">
+          Search titles, descriptions, and tags. Type to begin.
+        </p>
+      `;
+      return;
+    }
+
+    if (items.length === 0) {
+      resultsContainer.innerHTML = `
+        <p class="py-6 text-center text-xs text-secondary">
+          No articles found matching "${escapeHtml(query)}".
+        </p>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = items
+      .map(
+        (item) => `
+      <a href="${item.url}" class="group block py-2.5 px-2 hover:bg-primary/[0.03] rounded-md transition-colors">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="inline-flex items-center rounded-full border border-primary/10 bg-primary/[0.04] px-2 py-0.5 text-[10px] font-medium text-secondary uppercase tracking-wider">
+            ${escapeHtml(item.category)}
+          </span>
+          ${item.date ? `<span class="text-[11px] text-secondary">${escapeHtml(item.date)}</span>` : ''}
+        </div>
+        <h4 class="text-sm font-semibold text-primary group-hover:underline">
+          ${escapeHtml(item.title)}
+        </h4>
+        ${
+          item.description
+            ? `<p class="mt-0.5 text-xs text-secondary line-clamp-1">${escapeHtml(item.description)}</p>`
+            : ''
+        }
+      </a>
+    `
+      )
+      .join('');
+  }
+
+  function escapeHtml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Keyboard shortcut listeners
+  window.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+      e.preventDefault();
+      openSearch();
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openSearch();
+    } else if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      e.preventDefault();
+      closeSearch();
+    }
+  });
+
+  input?.addEventListener('input', (e) => {
+    performSearch((e.target as HTMLInputElement).value);
+  });
+
+  closeBtn?.addEventListener('click', closeSearch);
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeSearch();
+    }
+  });
+
+  // Global trigger buttons
+  document.querySelectorAll('[data-open-search]').forEach((btn) => {
+    btn.addEventListener('click', openSearch);
+  });
+</script>

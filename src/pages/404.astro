@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 - Page Not Found"
+  description="The requested page could not be found."
+>
+  <div class="py-20 text-center">
+    <div class="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/[0.03] px-3 py-1 text-xs font-mono text-secondary mb-4">
+      <span>Error 404</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-primary">
+      Page Not Found
+    </h1>
+    <p class="mt-4 text-base text-secondary max-w-md mx-auto leading-relaxed">
+      The article or page you are looking for has been moved, renamed, or does not exist.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary text-background px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
+      >
+        <span>Return to Homepage</span>
+      </a>
+      <a
+        href="/case-study"
+        class="inline-flex items-center gap-2 rounded-md border border-primary/15 bg-surface px-4 py-2 text-sm font-medium text-secondary hover:text-primary transition-colors"
+      >
+        <span>Browse Case Studies</span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>

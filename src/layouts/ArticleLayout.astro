@@ -1,0 +1,161 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import type { ParsedArticle } from '../utils/articles';
+import { siteConfig } from '../site.config';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  article: ParsedArticle;
+  headings: MarkdownHeading[];
+  prevArticle?: ParsedArticle;
+  nextArticle?: ParsedArticle;
+}
+
+const { article, headings, prevArticle, nextArticle } = Astro.props;
+const categoryConfig = siteConfig.categories[article.category];
+const categoryTitle = categoryConfig?.title || article.category;
+---
+
+<BaseLayout
+  title={article.title}
+  description={article.description || `Article in ${categoryTitle}: ${article.title}`}
+  ogType="article"
+  publishedTime={article.date}
+  articleTags={article.tags}
+>
+  <article class="mx-auto max-w-reading">
+    <!-- Breadcrumb / Back Link -->
+    <div class="mb-6 flex items-center gap-2 text-xs text-secondary">
+      <a href={`/${article.category}`} class="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Back to {categoryTitle}</span>
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="border-b border-primary/10 pb-8 mb-8">
+      <!-- Category Capsule -->
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <a
+          href={`/${article.category}`}
+          class="inline-flex items-center gap-1.5 rounded-full border border-primary/10 bg-primary/[0.03] px-3 py-1 text-xs font-medium text-foreground/90 transition-colors hover:bg-primary/[0.06] hover:border-primary/20"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" aria-hidden="true"></span>
+          <span>{categoryTitle}</span>
+        </a>
+
+        {article.draft && (
+          <span class="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+            Draft Preview
+          </span>
+        )}
+      </div>
+
+      <!-- Article Title -->
+      <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-primary leading-tight sm:leading-snug">
+        {article.title}
+      </h1>
+
+      <!-- Description -->
+      {article.description && (
+        <p class="mt-3 text-base sm:text-lg text-secondary leading-relaxed">
+          {article.description}
+        </p>
+      )}
+
+      <!-- Meta Row -->
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-secondary">
+        {article.formattedDate && (
+          <time datetime={article.date} class="text-secondary font-medium">
+            {article.formattedDate}
+          </time>
+        )}
+
+        {article.formattedDate && <span class="text-primary/20">•</span>}
+
+        <span>{article.readingTime}</span>
+
+        {article.tags && article.tags.length > 0 && (
+          <>
+            <span class="text-primary/20">•</span>
+            <div class="flex flex-wrap items-center gap-1.5">
+              {article.tags.map((tag) => (
+                <span class="inline-flex items-center rounded-full border border-primary/10 bg-surface px-2 py-0.5 text-[11px] font-medium text-secondary">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    {headings && headings.length > 0 && <TableOfContents headings={headings} />}
+
+    <!-- Rendered Markdown Body -->
+    <div class="prose prose-neutral max-w-none text-foreground prose-headings:scroll-mt-20 prose-img:rounded-lg prose-img:border prose-img:border-primary/10 prose-img:mx-auto">
+      <slot />
+    </div>
+
+    <!-- Article Footer / Navigation -->
+    <footer class="mt-12 border-t border-primary/10 pt-8">
+      <!-- Previous / Next Navigation -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {prevArticle ? (
+          <a
+            href={prevArticle.url}
+            class="group flex flex-col rounded-lg border border-primary/10 p-4 transition-colors hover:border-primary/30 hover:bg-surface/50"
+          >
+            <span class="flex items-center gap-1 text-xs text-secondary mb-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span>Previous Article</span>
+            </span>
+            <span class="text-sm font-medium text-primary group-hover:underline line-clamp-1">
+              {prevArticle.title}
+            </span>
+          </a>
+        ) : (
+          <div></div>
+        )}
+
+        {nextArticle ? (
+          <a
+            href={nextArticle.url}
+            class="group flex flex-col items-end text-right rounded-lg border border-primary/10 p-4 transition-colors hover:border-primary/30 hover:bg-surface/50"
+          >
+            <span class="flex items-center gap-1 text-xs text-secondary mb-1">
+              <span>Next Article</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+            <span class="text-sm font-medium text-primary group-hover:underline line-clamp-1">
+              {nextArticle.title}
+            </span>
+          </a>
+        ) : (
+          <div></div>
+        )}
+      </div>
+
+      <!-- Back to category link -->
+      <div class="mt-8 text-center">
+        <a
+          href={`/${article.category}`}
+          class="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-transparent px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
+        >
+          <span>View all {categoryTitle}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>

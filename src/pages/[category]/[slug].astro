@@ -1,0 +1,59 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getAllArticles, type ParsedArticle } from '../../utils/articles';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getAllArticles();
+
+  // Group articles by category to calculate prev/next links within each category
+  const categoryGroups: Record<string, ParsedArticle[]> = {};
+  for (const article of articles) {
+    if (!categoryGroups[article.category]) {
+      categoryGroups[article.category] = [];
+    }
+    categoryGroups[article.category].push(article);
+  }
+
+  return articles.map((article) => {
+    const group = categoryGroups[article.category] || [];
+    const index = group.findIndex((a) => a.slug === article.slug);
+
+    // In a newest-first list:
+    // prevArticle is newer (index - 1)
+    // nextArticle is older (index + 1)
+    const prevArticle = index > 0 ? group[index - 1] : undefined;
+    const nextArticle = index < group.length - 1 ? group[index + 1] : undefined;
+
+    return {
+      params: {
+        category: article.category,
+        slug: article.slug,
+      },
+      props: {
+        article,
+        prevArticle,
+        nextArticle,
+      },
+    };
+  });
+}
+
+interface Props {
+  article: ParsedArticle;
+  prevArticle?: ParsedArticle;
+  nextArticle?: ParsedArticle;
+}
+
+const { article, prevArticle, nextArticle } = Astro.props;
+const { Content, headings } = await render(article.entry);
+---
+
+<ArticleLayout
+  article={article}
+  headings={headings}
+  prevArticle={prevArticle}
+  nextArticle={nextArticle}
+>
+  <Content />
+</ArticleLayout>

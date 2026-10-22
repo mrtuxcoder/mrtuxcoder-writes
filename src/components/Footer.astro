@@ -1,0 +1,46 @@
+---
+import { siteConfig } from '../site.config';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-primary/10 bg-surface/50 py-10 px-4 sm:px-8 mt-auto text-xs text-secondary">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <!-- Left Copyright & Attribution -->
+    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+      <span class="font-medium text-primary">
+        {siteConfig.author}
+      </span>
+      <span class="hidden sm:inline text-primary/20">|</span>
+      <span>
+        © {currentYear} {siteConfig.siteName}. All rights reserved.
+      </span>
+    </div>
+
+    <!-- Right Links -->
+    <div class="flex items-center gap-5">
+      <a href="/rss.xml" class="hover:text-primary transition-colors flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 11a9 9 0 0 1 9 9"></path>
+          <path d="M4 4a16 16 0 0 1 16 16"></path>
+          <circle cx="5" cy="19" r="1"></circle>
+        </svg>
+        <span>RSS</span>
+      </a>
+      <a href="/sitemap.xml" class="hover:text-primary transition-colors">
+        Sitemap
+      </a>
+      <a
+        href={siteConfig.portfolioUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-primary transition-colors flex items-center gap-1"
+      >
+        <span>{siteConfig.portfolioLabel}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>

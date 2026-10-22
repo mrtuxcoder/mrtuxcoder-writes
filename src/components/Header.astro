@@ -1,0 +1,141 @@
+---
+import { siteConfig } from '../site.config';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '' } = Astro.props;
+---
+
+<header class="border-b border-primary/10 bg-background/95 backdrop-blur sticky top-0 z-40">
+  <div class="flex h-16 items-center justify-between px-4 sm:px-8">
+    <!-- Brand -->
+    <div class="flex items-center gap-3">
+      <a href="/" class="group flex items-center gap-2 text-base font-semibold text-primary transition-opacity hover:opacity-85">
+        <span class="h-2.5 w-2.5 rounded-full bg-accent-emerald shrink-0" aria-hidden="true"></span>
+        <span class="tracking-tight">{siteConfig.siteName}</span>
+      </a>
+      <span class="hidden md:inline-flex items-center rounded-full border border-primary/10 bg-primary/[0.03] px-2 py-0.5 text-[11px] font-medium text-secondary">
+        Publishing
+      </span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium" aria-label="Main Navigation">
+      {siteConfig.navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class={`transition-colors py-1 ${
+              isActive
+                ? 'text-primary font-semibold border-b-2 border-primary'
+                : 'text-secondary hover:text-primary'
+            }`}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Right Actions -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Search Trigger Button -->
+      <button
+        type="button"
+        data-open-search
+        class="inline-flex items-center gap-1.5 rounded-md border border-primary/15 bg-surface px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:border-primary/30 transition-colors"
+        aria-label="Search articles"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span class="hidden sm:inline">Search</span>
+        <kbd class="hidden sm:inline-block rounded border border-primary/15 bg-background px-1 py-0.2 font-mono text-[10px] text-secondary">
+          /
+        </kbd>
+      </button>
+
+      <!-- Portfolio Link Capsule -->
+      <a
+        href={siteConfig.portfolioUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-transparent px-3 py-1 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
+        title="Visit Portfolio"
+      >
+        <span>{siteConfig.portfolioLabel}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        type="button"
+        id="mobile-menu-btn"
+        class="md:hidden inline-flex items-center justify-center rounded-md p-1.5 text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <svg id="hamburger-icon" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="close-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-primary/10 bg-background px-4 py-4 space-y-2">
+    {siteConfig.navLinks.map((link) => {
+      const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+      return (
+        <a
+          href={link.href}
+          class={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+            isActive
+              ? 'bg-primary/5 text-primary font-semibold'
+              : 'text-secondary hover:text-primary hover:bg-primary/[0.02]'
+          }`}
+        >
+          {link.label}
+        </a>
+      );
+    })}
+    <div class="pt-2 border-t border-primary/10">
+      <a
+        href={siteConfig.portfolioUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-primary hover:bg-primary/5"
+      >
+        <span>Visit {siteConfig.portfolioLabel}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  if (menuBtn && menu && hamburgerIcon && closeIcon) {
+    menuBtn.addEventListener('click', () => {
+      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+  }
+</script>

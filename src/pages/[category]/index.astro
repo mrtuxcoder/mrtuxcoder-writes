@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getArticlesByCategory, getAllArticles } from '../../utils/articles';
+import { siteConfig } from '../../site.config';
+
+export async function getStaticPaths() {
+  const allArticles = await getAllArticles({ includeDrafts: true });
+  const detectedCategories = new Set<string>();
+
+  // Include configured categories
+  for (const catKey of Object.keys(siteConfig.categories)) {
+    detectedCategories.add(catKey);
+  }
+
+  // Include any extra categories discovered in content
+  for (const article of allArticles) {
+    if (article.category) {
+      detectedCategories.add(article.category);
+    }
+  }
+
+  return Array.from(detectedCategories).map((category) => {
+    const config = siteConfig.categories[category];
+    return {
+      params: { category },
+      props: {
+        category,
+        title: config?.title || category,
+        description: config?.description || `Articles categorized under ${category}.`,
+      },
+    };
+  });
+}
+
+interface Props {
+  category: string;
+  title: string;
+  description: string;
+}
+
+const { category, title, description } = Astro.props;
+const articles = await getArticlesByCategory(category);
+---
+
+<BaseLayout
+  title={`${title} | ${siteConfig.siteName}`}
+  description={description}
+>
+  <div class="space-y-8">
+    <!-- Category Header -->
+    <header class="border-b border-primary/10 pb-8">
+      <div class="mb-3 flex items-center gap-2">
+        <a href="/" class="text-xs text-secondary hover:text-primary transition-colors flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>Home</span>
+        </a>
+        <span class="text-primary/20 text-xs">/</span>
+        <span class="text-xs text-secondary font-medium">Category</span>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
+            {title}
+          </h1>
+          <p class="mt-2 text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <span class="rounded-full border border-primary/10 bg-surface px-3 py-1 text-xs font-medium text-secondary">
+          {articles.length} article{articles.length === 1 ? '' : 's'}
+        </span>
+      </div>
+    </header>
+
+    <!-- Articles List -->
+    {articles.length === 0 ? (
+      <div class="py-16 text-center">
+        <p class="text-sm text-secondary">
+          No articles published under <strong class="font-medium text-primary">{title}</strong> yet.
+        </p>
+        <p class="mt-2 text-xs text-secondary">
+          Add Markdown files to <code class="bg-surface px-1.5 py-0.5 rounded border border-primary/10 font-mono">content/{category}/</code> to publish here.
+        </p>
+      </div>
+    ) : (
+      <div class="divide-y divide-primary/10">
+        {articles.map((article) => (
+          <ArticleCard article={article} showCategory={false} />
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>

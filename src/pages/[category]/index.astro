@@ -71,9 +71,11 @@ const articles = await getArticlesByCategory(category);
           </p>
         </div>
 
-        <span class="rounded-full border border-primary/10 bg-surface px-3 py-1 text-xs font-medium text-secondary">
-          {articles.length} article{articles.length === 1 ? '' : 's'}
-        </span>
+        {articles.length > 0 && (
+          <span class="rounded-full border border-primary/10 bg-surface px-3 py-1 text-xs font-medium text-secondary">
+            {articles.length} article{articles.length === 1 ? '' : 's'}
+          </span>
+        )}
       </div>
     </header>
 
@@ -81,10 +83,7 @@ const articles = await getArticlesByCategory(category);
     {articles.length === 0 ? (
       <div class="py-16 text-center">
         <p class="text-sm text-secondary">
-          No articles published under <strong class="font-medium text-primary">{title}</strong> yet.
-        </p>
-        <p class="mt-2 text-xs text-secondary">
-          Add Markdown files to <code class="bg-surface px-1.5 py-0.5 rounded border border-primary/10 font-mono">content/{category}/</code> to publish here.
+          Articles coming soon.
         </p>
       </div>
     ) : (

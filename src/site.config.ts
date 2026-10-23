@@ -20,8 +20,8 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   // Configurable project name: change here to rename across the entire site
   siteName: 'mrtuxcoder-writes',
-  siteTitle: 'Guganraj Rengaraju | Notes & Technical Writing',
-  siteDescription: 'Technical blogs, tutorials, infrastructure case studies, and engineering thoughts by Guganraj Rengaraju.',
+  siteTitle: 'Guganraj Rengaraju | Notes & Explorations',
+  siteDescription: 'A little corner of the internet for projects, useful discoveries, personal thoughts, and things worth sharing.',
   siteUrl: 'https://notes.guganraj.me',
   portfolioUrl: 'https://guganraj.me',
   portfolioLabel: 'guganraj.me',
@@ -30,17 +30,17 @@ export const siteConfig: SiteConfig = {
     'case-study': {
       slug: 'case-study',
       title: 'Case Studies',
-      description: 'In-depth writeups on infrastructure architecture, homelab systems, and DevOps engineering.',
+      description: "Stories of projects I've built, experiments I've run, problems I've solved, and the lessons behind them.",
     },
     'blogs': {
       slug: 'blogs',
       title: 'Blogs',
-      description: 'Hands-on technical tutorials, guides, and practical engineering notes.',
+      description: "Guides, discoveries, useful tools, personal projects, experiences, and things I've learned along the way.",
     },
     'thoughts': {
       slug: 'thoughts',
       title: 'Thoughts',
-      description: 'Reflections on software, developer tooling, systems thinking, and learning in public.',
+      description: "Personal reflections, random ideas, opinions, observations, and whatever happens to be on my mind.",
     },
   },
   navLinks: [

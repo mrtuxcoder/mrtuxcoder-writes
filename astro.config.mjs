@@ -8,6 +8,10 @@ export default defineConfig({
   site: 'https://notes.guganraj.me',
   output: 'static',
   trailingSlash: 'never',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   markdown: {
     shikiConfig: {
       theme: 'github-light',

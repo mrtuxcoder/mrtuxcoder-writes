@@ -14,15 +14,108 @@ export interface ParsedArticle {
   readingTime: string;
 }
 
+export interface ReadingTimeStats {
+  minutes: number;
+  text: string;
+  wordCount: number;
+  proseWords: number;
+  codeWords: number;
+  headingsCount: number;
+  codeBlocksCount: number;
+  tablesCount: number;
+}
+
 /**
- * Calculates reading time based on 200 wpm.
+ * Calculates realistic reading time based on words, headings, sections, and technical blocks.
+ *
+ * Technical reading model:
+ * - Prose reading speed: ~200 words per minute (~3.33 words/sec).
+ * - Headings (H1/H2/H3): Readers pause ~6 seconds per heading/section transition to absorb structure.
+ * - Code & diagram blocks: Inspected at ~80 words/min equivalent (~15-20 sec per block).
+ * - Tables / structured metrics: ~10 seconds per table.
+ *
+ * Avoids destructive regex that mistakes comparison operators (<, >) for HTML tags.
  */
-export function calculateReadingTime(text?: string): string {
-  if (!text) return '1 min read';
-  const clean = text.replace(/<\/?[^>]+(>|$)/g, '').replace(/```[\s\S]*?```/g, '');
-  const words = clean.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
-  return `${minutes} min read`;
+export function calculateReadingTime(rawContent?: string): string {
+  return getReadingTimeStats(rawContent).text;
+}
+
+export function getReadingTimeStats(rawContent?: string): ReadingTimeStats {
+  if (!rawContent || !rawContent.trim()) {
+    return {
+      minutes: 1,
+      text: '1 min read',
+      wordCount: 0,
+      proseWords: 0,
+      codeWords: 0,
+      headingsCount: 0,
+      codeBlocksCount: 0,
+      tablesCount: 0,
+    };
+  }
+
+  // 1. Strip YAML frontmatter if present
+  const content = rawContent.replace(/^---[\s\S]*?---\s*/, '');
+
+  // 2. Identify sections and headings (# Title, ## Section, ### Subsection)
+  const headingMatches = content.match(/^#{1,6}\s+.+$/gm) || [];
+  const headingsCount = headingMatches.length;
+
+  // 3. Extract and analyze code blocks
+  const codeBlockMatches = content.match(/```[\s\S]*?```/g) || [];
+  const codeBlocksCount = codeBlockMatches.length;
+
+  let codeWords = 0;
+  for (const block of codeBlockMatches) {
+    const codeBody = block.replace(/```[a-zA-Z0-9_-]*\n?/g, '').replace(/```$/, '');
+    codeWords += codeBody.trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  // 4. Count tables (pipes on consecutive lines)
+  const tableMatches = content.match(/(?:^\|.+\|$\n?)+/gm) || [];
+  const tablesCount = tableMatches.length;
+
+  // 5. Clean prose content without corrupting math/inequality symbols (< 2 seconds, etc.)
+  const proseWithoutCode = content.replace(/```[\s\S]*?```/g, ' ');
+  const cleanProse = proseWithoutCode
+    // Only match valid HTML open/close tags (e.g. <div>, </span>, <br />), NOT standalone < or >
+    .replace(/<\/?[a-zA-Z][a-zA-Z0-9]*\b[^>]*>/g, ' ')
+    // Strip image Markdown syntax ![alt](url)
+    .replace(/!\[.*?\]\(.*?\)/g, ' ')
+    // Keep link text from [text](url)
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+    // Strip markdown formatting symbols but keep numbers and text intact
+    .replace(/[#*`_~|]/g, ' ');
+
+  const proseWords = cleanProse.trim().split(/\s+/).filter(Boolean).length;
+  const wordCount = proseWords + codeWords;
+
+  // 6. Calculate total seconds based on human technical reading metrics:
+  // - Prose reading: 200 words per minute
+  const proseSeconds = (proseWords / 200) * 60;
+
+  // - Technical code/architecture block reading: 80 words per minute
+  const codeSeconds = (codeWords / 80) * 60;
+
+  // - Heading/section context switch: 6 seconds pause per heading
+  const headingSeconds = headingsCount * 6;
+
+  // - Table data inspection: 10 seconds per table
+  const tableSeconds = tablesCount * 10;
+
+  const totalSeconds = proseSeconds + codeSeconds + headingSeconds + tableSeconds;
+  const minutes = Math.max(1, Math.round(totalSeconds / 60));
+
+  return {
+    minutes,
+    text: `${minutes} min read`,
+    wordCount,
+    proseWords,
+    codeWords,
+    headingsCount,
+    codeBlocksCount,
+    tablesCount,
+  };
 }
 
 /**

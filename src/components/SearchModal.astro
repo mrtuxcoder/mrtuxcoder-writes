@@ -244,7 +244,9 @@
     } else if (e.key === 'Enter') {
       if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
         e.preventDefault();
-        window.location.href = filteredItems[selectedIndex].url;
+        const dest = filteredItems[selectedIndex].url;
+        closeSearch();
+        window.location.href = dest;
       }
     }
   });
@@ -261,7 +263,33 @@
     }
   });
 
-  document.querySelectorAll('[data-open-search]').forEach((btn) => {
-    btn.addEventListener('click', openSearch);
+  resultsContainer?.addEventListener('click', (e) => {
+    const link = (e.target as HTMLElement).closest('a');
+    if (link) {
+      closeSearch();
+    }
   });
+
+  function bindSearchTriggers() {
+    document.querySelectorAll('[data-open-search]').forEach((btn) => {
+      btn.removeEventListener('click', openSearch);
+      btn.addEventListener('click', openSearch);
+    });
+  }
+
+  // Pre-load search index when idle so searches are instantaneous
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(() => loadSearchIndex());
+    } else {
+      setTimeout(loadSearchIndex, 800);
+    }
+  }
+
+  // Bind on initial page load and on client-side router navigation
+  document.addEventListener('astro:page-load', () => {
+    closeSearch();
+    bindSearchTriggers();
+  });
+  bindSearchTriggers();
 </script>

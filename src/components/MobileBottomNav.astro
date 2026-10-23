@@ -36,6 +36,7 @@ const items = [
     {items.map((item) => (
       <a
         href={item.href}
+        data-astro-prefetch
         class={`flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full text-xs transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 ${
           item.isActive
             ? 'bg-primary/[0.08] text-primary font-semibold shadow-2xs'

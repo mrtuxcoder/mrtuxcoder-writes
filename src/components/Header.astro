@@ -67,12 +67,19 @@ const { currentPath = '' } = Astro.props;
         href={siteConfig.portfolioUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="h-8 sm:h-9 hidden sm:inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-surface px-3 text-xs font-medium text-primary hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/20"
-        title="Visit Portfolio"
+        class="group h-8 sm:h-9 hidden sm:inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-surface px-3 text-xs font-medium text-secondary hover:text-primary hover:border-primary/30 hover:bg-primary/[0.03] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/20"
+        title={`Visit ${siteConfig.portfolioLabel}`}
       >
-        <span>{siteConfig.portfolioLabel}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-secondary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        <span>visit {siteConfig.portfolioLabel}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-3 w-3 text-secondary group-hover:text-primary transition-transform duration-200 group-hover:translate-x-0.5 shrink-0"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
         </svg>
       </a>
 
@@ -116,11 +123,18 @@ const { currentPath = '' } = Astro.props;
         href={siteConfig.portfolioUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-primary hover:bg-primary/5 transition-colors"
+        class="group flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-secondary hover:text-primary hover:bg-primary/5 transition-colors"
       >
-        <span>Visit {siteConfig.portfolioLabel}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        <span>visit {siteConfig.portfolioLabel}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-3.5 w-3.5 text-secondary group-hover:text-primary transition-transform duration-200 group-hover:translate-x-1 shrink-0"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
         </svg>
       </a>
     </div>

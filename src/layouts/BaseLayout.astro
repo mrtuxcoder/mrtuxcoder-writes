@@ -63,12 +63,14 @@ const currentPath = Astro.url.pathname;
     <link rel="alternate" type="application/rss+xml" title={`${siteConfig.siteName} RSS Feed`} href="/rss.xml" />
   </head>
   <body class="bg-background text-foreground antialiased selection:bg-primary/10">
-    <div class="mx-auto flex min-h-screen w-full max-w-5xl flex-col border-x border-primary/10 bg-background shadow-xs">
-      <Header currentPath={currentPath} />
-      <main class="flex-1 px-4 sm:px-8 py-8 sm:py-12">
-        <slot />
-      </main>
-      <Footer />
+    <div class="site-container flex-1 flex flex-col">
+      <div class="flex min-h-screen flex-1 flex-col border-x border-primary/10 bg-background shadow-xs">
+        <Header currentPath={currentPath} />
+        <main class="flex-1 px-4 sm:px-8 py-8 sm:py-12">
+          <slot />
+        </main>
+        <Footer />
+      </div>
     </div>
 
     <!-- Search Modal -->

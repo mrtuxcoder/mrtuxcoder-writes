@@ -48,6 +48,5 @@ export const siteConfig: SiteConfig = {
     { label: 'Case Studies', href: '/case-study' },
     { label: 'Blogs', href: '/blogs' },
     { label: 'Thoughts', href: '/thoughts' },
-    { label: 'About', href: '/about' },
   ],
 };

@@ -24,6 +24,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
   overflow-y: scroll;
 }
 
@@ -83,6 +84,16 @@ pre.astro-code code {
 .table-wrapper table {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+/* Responsive images in Markdown prose */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Subtle scrollbars for pre blocks */

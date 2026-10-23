@@ -2,25 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getRecentArticles, getAllArticles } from '../utils/articles';
-import { siteConfig } from '../site.config';
 
 const recentArticles = await getRecentArticles(6);
 const allArticles = await getAllArticles();
-
-// Compute counts per category
-const counts: Record<string, number> = {};
-for (const [key] of Object.entries(siteConfig.categories)) {
-  counts[key] = allArticles.filter((a) => a.category === key).length;
-}
 ---
 
 <BaseLayout
   title="Home"
   description="Things I build, learn, explore, and think about."
 >
-  <div class="space-y-10 sm:space-y-12">
+  <div class="space-y-8 sm:space-y-10">
     <!-- Hero / Introduction -->
-    <section class="border-b border-primary/10 pb-8 sm:pb-10">
+    <section class="border-b border-primary/10 pb-7 sm:pb-9">
       <div class="flex items-center gap-2 mb-3.5">
         <span class="inline-flex items-center gap-1.5 rounded-full border border-primary/10 bg-primary/[0.03] px-2.5 py-1 text-xs font-medium text-secondary">
           <span class="h-1.5 w-1.5 rounded-full bg-accent-emerald shrink-0" aria-hidden="true"></span>
@@ -35,67 +28,6 @@ for (const [key] of Object.entries(siteConfig.categories)) {
       <p class="mt-3.5 max-w-2xl text-sm sm:text-base text-secondary leading-relaxed">
         A little corner of the internet for projects, useful discoveries, personal thoughts, and things worth sharing—from technology and systems to everyday curiosities.
       </p>
-
-      <div class="mt-6 flex flex-wrap items-center gap-2.5 sm:gap-3">
-        <a
-          href={siteConfig.portfolioUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group h-8 sm:h-9 inline-flex items-center gap-1.5 rounded-md border border-primary/15 bg-surface px-3 text-xs font-medium text-secondary hover:text-primary hover:border-primary/30 hover:bg-primary/[0.03] transition-colors"
-        >
-          <span>visit {siteConfig.portfolioLabel}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3 text-secondary group-hover:text-primary transition-transform duration-200 group-hover:translate-x-0.5 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
-      </div>
-    </section>
-
-    <!-- Categories Overview -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-secondary">
-          Categories
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        {Object.entries(siteConfig.categories).map(([key, cat]) => (
-          <a
-            href={`/${key}`}
-            class="group rounded-lg border border-primary/10 bg-surface/50 p-4 sm:p-5 transition-all duration-150 hover:border-primary/25 hover:bg-surface flex flex-col justify-between"
-          >
-            <div>
-              <div class="flex items-center justify-between gap-2">
-                <h3 class="text-sm font-semibold text-primary group-hover:underline">
-                  {cat.title}
-                </h3>
-                {counts[key] > 0 && (
-                  <span class="rounded-full border border-primary/10 bg-background px-2 py-0.5 text-[11px] font-medium text-secondary">
-                    {counts[key]}
-                  </span>
-                )}
-              </div>
-              <p class="mt-2 text-xs text-secondary leading-relaxed">
-                {cat.description}
-              </p>
-            </div>
-            <div class="mt-3 pt-2 flex items-center text-[11px] text-secondary font-medium group-hover:text-primary transition-colors">
-              <span>Browse {cat.title}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </a>
-        ))}
-      </div>
     </section>
 
     <!-- Recent Articles Feed -->

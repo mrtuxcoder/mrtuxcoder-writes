@@ -6,7 +6,7 @@ tags: ["ai", "devops", "aws", "telegram", "switch", "multi-agent", "incident-res
 draft: false
 ---
 
-**Author:** Sumanth ([@mrtuxcoder](https://github.com/mrtuxcoder)) & The OpsRoom Team  
+**Author:** Guganraj Rengaraju ([@mrtuxcoder](https://github.com/mrtuxcoder)) & The OpsRoom Team  
 **Repository:** [github.com/mrtuxcoder/OpsRoom](https://github.com/mrtuxcoder/OpsRoom)  
 **Demo Video:** [Watch on YouTube](https://youtu.be/1SA2d8gol98)  
 **Target Platform:** Switch AI + Telegram + Antigravity (Gemini) + AWS SDK v3  

@@ -24,7 +24,7 @@ const categoryTitle = categoryConfig?.title || article.category;
   publishedTime={article.date}
   articleTags={article.tags}
 >
-  <article class="mx-auto max-w-reading">
+  <article class="mx-auto max-w-reading min-w-0 w-full">
     <!-- Breadcrumb -->
     <div class="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-secondary">
       <a href="/" class="hover:text-primary transition-colors flex items-center gap-1">
@@ -103,7 +103,7 @@ const categoryTitle = categoryConfig?.title || article.category;
     {headings && headings.length > 0 && <TableOfContents headings={headings} />}
 
     <!-- Rendered Markdown Body -->
-    <div class="prose prose-neutral max-w-none text-foreground prose-headings:scroll-mt-20 prose-img:rounded-lg prose-img:border prose-img:border-primary/10 prose-img:mx-auto">
+    <div class="prose prose-neutral max-w-none min-w-0 text-foreground prose-headings:scroll-mt-20 prose-img:rounded-lg prose-img:border prose-img:border-primary/10 prose-img:mx-auto">
       <slot />
     </div>
 

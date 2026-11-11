@@ -4,6 +4,25 @@ import sitemap from '@astrojs/sitemap';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
+function rehypeWrapTables() {
+  const visit = (node) => {
+    if (!node || !Array.isArray(node.children)) return;
+    node.children = node.children.map((child) => {
+      if (child?.type === 'element' && child.tagName === 'table') {
+        return {
+          type: 'element',
+          tagName: 'div',
+          properties: { className: ['table-wrapper'] },
+          children: [child],
+        };
+      }
+      visit(child);
+      return child;
+    });
+  };
+  return (tree) => visit(tree);
+}
+
 export default defineConfig({
   site: 'https://notes.guganraj.me',
   output: 'static',
@@ -19,6 +38,7 @@ export default defineConfig({
     },
     rehypePlugins: [
       rehypeSlug,
+      rehypeWrapTables,
       [
         rehypeAutolinkHeadings,
         {

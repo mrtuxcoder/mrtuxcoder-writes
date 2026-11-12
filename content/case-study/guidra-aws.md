@@ -361,7 +361,67 @@ An EC2 instance can be running while the application itself is unhealthy.
 
 That's why I added both EC2 status-check alarms and ALB target-health monitoring. Together with the backend `/health` endpoint (which checks MongoDB readiness) and SSM container state checks during deployment, they cover both host-level and application-level health.
 
-## 10. Challenges and Lessons Learned
+## 10. Production Traffic & Response Time Analysis
+
+I reviewed historical ALB telemetry in CloudWatch for the UTC window from 2026-11-05 through 2026-11-12. The ALB recorded **94,392 requests** during that period.
+
+|Metric|Observed value|
+|---|---|
+|ALB requests|94,392|
+|Target response time p50|0.68 ms|
+|Target response time p90|2.32 ms|
+|Target response time p95|3.70 ms|
+|Target response time p99|67.69 ms|
+
+These response-time figures are averages of hourly percentile samples from the ALB target-response-time metric. They are useful for understanding how the targets behaved over the observation window, but they are not end-user latency measurements and should not be treated as a controlled performance benchmark.
+
+No load tests or Lighthouse benchmarks were executed as part of this review, so I have not inferred application performance from these infrastructure observations alone.
+
+## 11. CI/CD Execution Performance
+
+I also inspected one selected successful CI-to-deployment pipeline to understand the time spent across its stages. The overall elapsed time was **244 seconds**, from the first job starting until the final deployment completed.
+
+|Job|Duration|
+|---|---|
+|Lint|22s|
+|Backend tests|27s|
+|GHCR publish|93s|
+|ECR publish|116s|
+|EC2 deployment 1|38s|
+|EC2 deployment 2|35s|
+
+The individual job durations do not add up to the total elapsed time because publishing and the two EC2 deployment jobs can overlap. This is one observed pipeline execution, rather than a generalised deployment benchmark.
+
+## 12. Infrastructure Health & Monitoring
+
+For the same seven-day observation window, I checked the ALB target-health and EC2 status-check metrics alongside the alarms already configured for the environment.
+
+|Metric|Observation|
+|---|---|
+|Healthy ALB targets|2/2|
+|Unhealthy target hourly samples|0|
+|EC2 status-check failed hourly samples|0|
+|Average CPU — instance 1|0.52%|
+|Average CPU — instance 2|0.55%|
+
+These observations indicate that both registered targets were healthy in the sampled hours and that no EC2 status-check failures were recorded in that window. They do not, by themselves, establish uninterrupted application availability or capacity under load.
+
+## 13. Rollback Workflow Analysis
+
+The rollback workflow is designed to restore a manually selected immutable release SHA after confirming that the required ECR images exist and then issuing the restore commands through SSM to both instances.
+
+Two historical rollback workflow executions were reviewed: one completed successfully in **23 seconds**, and one failed in **13 seconds**. These figures measure workflow execution only; they are not application recovery times because the review did not record when the restored containers, backend readiness, or ALB targets became healthy.
+
+## 14. Operational Findings & Improvements
+
+The audit also highlighted a few areas where the operational checks can become more complete.
+
+- CloudWatch reported **9,073 ELB-generated 5xx responses** in the review period. This remains an unresolved investigation and needs reconciliation with ALB access logs and target-level metrics before it can be attributed to the application or described as an application-error count.
+- The ALB target group currently checks `GET /` on the Nginx-facing port, while the backend `/health` endpoint checks MongoDB connection readiness. Evaluating a staging readiness-verification flow would help confirm that the deployed application is ready beyond a successful root-path health check.
+- The deployment workflow currently verifies that containers are running. Adding post-deployment readiness and ALB target-health checks would provide a clearer handoff from deployment completion to application readiness.
+- Rollback reporting could record container, backend-readiness and ALB-health milestones so future rollback analysis can distinguish workflow duration from actual service recovery.
+
+## 15. Challenges and Lessons Learned
 
 The most valuable part of this deployment was understanding how the components work together.
 
@@ -407,7 +467,7 @@ That's why I added both EC2 status-check alarms and ALB target-health monitoring
 
 They monitor different layers of the system.
 
-## 11. Final Thoughts
+## 16. Final Thoughts
 
 Guidra helped me connect several concepts I had learned separately.
 

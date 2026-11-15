@@ -192,8 +192,13 @@ html:not(.dark) .astro-code span {
   border-bottom: 0;
 }
 
-/* Prevent long inline code tokens from overflowing mobile */
-.prose :where(p, li) > code {
+/* Inline code tokens inside prose - match surrounding text size seamlessly */
+.prose code:not(pre code) {
+  font-size: 1em;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  vertical-align: baseline;
   overflow-wrap: anywhere;
 }
 

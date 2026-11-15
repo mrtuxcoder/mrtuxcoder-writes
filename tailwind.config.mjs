@@ -130,10 +130,10 @@ export default {
               color: 'var(--foreground)',
               backgroundColor: 'var(--muted)',
               border: '1px solid var(--border)',
-              padding: '0.15rem 0.35rem',
-              borderRadius: '0.375rem',
+              padding: '0.1em 0.3em',
+              borderRadius: '0.25rem',
               fontWeight: '500',
-              fontSize: '0.8125rem',
+              fontSize: '1em',
             },
             'code::before': {
               content: '""',

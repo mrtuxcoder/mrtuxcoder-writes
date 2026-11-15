@@ -36,6 +36,21 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Anti-Flash Theme Script -->
+    <script is:inline>
+      function applyCurrentTheme() {
+        const storedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+        const theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      applyCurrentTheme();
+      document.addEventListener('astro:after-swap', applyCurrentTheme);
+    </script>
+
     <!-- Primary Meta -->
     <title>{pageTitle}</title>
     <meta name="title" content={pageTitle} />
@@ -67,15 +82,16 @@ const currentPath = Astro.url.pathname;
     <!-- Instant Client-Side Router for Fast Page Transitions -->
     <ClientRouter />
   </head>
-  <body class="bg-background text-foreground antialiased selection:bg-primary/10">
-    <div class="site-container flex-1 flex flex-col min-w-0">
-      <div class="flex min-h-screen flex-1 flex-col min-w-0 border-x border-primary/10 bg-background shadow-xs">
-        <Header currentPath={currentPath} />
-        <main class="flex-1 min-w-0 px-4 sm:px-8 py-8 sm:py-12">
-          <slot />
-        </main>
-        <Footer />
-      </div>
+  <body class="bg-background text-foreground antialiased min-h-screen flex flex-col">
+    <!-- Contained Layout identical to portfolio (bounded at max-w-3xl, no edge-to-edge navbar) -->
+    <div class="mx-auto max-w-3xl w-full px-5 sm:px-6 flex flex-col min-h-screen">
+      <Header currentPath={currentPath} />
+
+      <main class="pt-5 sm:pt-7 pb-12 flex-1">
+        <slot />
+      </main>
+
+      <Footer />
     </div>
 
     <!-- Mobile Floating Bottom Navigation -->

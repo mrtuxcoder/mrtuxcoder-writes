@@ -12,8 +12,8 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 {filteredHeadings.length >= 2 && (
-  <nav class="my-6 rounded-lg border border-primary/10 bg-surface/60 p-4 sm:p-5 text-sm" aria-label="Table of Contents">
-    <div class="flex items-center gap-2 font-semibold text-primary mb-2.5 text-xs uppercase tracking-wider">
+  <nav class="my-6 rounded-xl border border-border/80 bg-card/60 p-3.5 sm:p-4 text-xs sm:text-sm transition-colors" aria-label="Table of Contents">
+    <div class="flex items-center gap-2 font-semibold text-primary mb-2 text-xs uppercase tracking-wider">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="8" y1="6" x2="21" y2="6"></line>
         <line x1="8" y1="12" x2="21" y2="6"></line>
@@ -24,14 +24,14 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
       </svg>
       <span>On this page</span>
     </div>
-    <ul class="space-y-1 text-secondary text-xs sm:text-sm">
+    <ul class="space-y-1 text-xs text-secondary">
       {filteredHeadings.map((heading) => {
         const cleanText = heading.text.replace(/#+$/, '').trim();
         return (
           <li class={heading.depth === 3 ? 'ml-3 sm:ml-4' : ''}>
             <a
               href={`#${heading.slug}`}
-              class="hover:text-primary hover:underline transition-colors block py-0.5 text-secondary/90 hover:text-primary"
+              class="hover:text-primary transition-colors block py-0.5 text-secondary hover:underline"
             >
               {cleanText}
             </a>

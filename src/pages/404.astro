@@ -6,27 +6,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   title="404 - Page Not Found"
   description="The requested page could not be found."
 >
-  <div class="py-16 sm:py-24 text-center">
-    <div class="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/[0.03] px-3 py-1 text-xs font-mono text-secondary mb-4">
+  <div class="py-16 sm:py-24 text-center space-y-4">
+    <div class="inline-flex items-center gap-2 rounded-md border border-border/70 bg-muted/40 px-2.5 py-1 text-xs font-mono text-secondary">
       <span>Error 404</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
       Page Not Found
     </h1>
-    <p class="mt-3 text-sm sm:text-base text-secondary max-w-md mx-auto leading-relaxed">
+
+    <p class="text-xs sm:text-sm text-secondary max-w-md mx-auto leading-relaxed">
       The article or page you are looking for has been moved, renamed, or does not exist.
     </p>
 
-    <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+    <div class="pt-4 flex flex-wrap items-center justify-center gap-2.5">
       <a
         href="/"
-        class="h-9 inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary text-background px-4 text-xs sm:text-sm font-medium hover:bg-primary/90 transition-colors"
+        class="h-9 inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground px-4 text-xs font-medium hover:opacity-90 transition-opacity"
       >
         <span>Return to Homepage</span>
       </a>
       <a
         href="/case-study"
-        class="h-9 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-surface px-4 text-xs sm:text-sm font-medium text-secondary hover:text-primary transition-colors"
+        class="h-9 inline-flex items-center justify-center rounded-lg border border-border bg-card px-4 text-xs font-medium text-secondary hover:text-primary hover:bg-muted/60 transition-colors"
       >
         <span>Browse Case Studies</span>
       </a>

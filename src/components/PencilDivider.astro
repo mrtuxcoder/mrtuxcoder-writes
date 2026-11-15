@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class={`w-full py-2 overflow-hidden select-none opacity-30 dark:opacity-25 ${className}`}
+  aria-hidden="true"
+>
+  <svg
+    viewBox="0 0 768 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-2 text-foreground/50 stroke-current"
+    preserveAspectRatio="none"
+  >
+    <path
+      d="M1 4.2C64 3.1 128 5.7 192 4.1C256 2.5 320 5.3 384 4.4C448 3.5 512 5.8 576 4.0C640 2.2 704 5.1 767 3.9"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</div>

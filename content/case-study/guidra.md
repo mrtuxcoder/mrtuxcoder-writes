@@ -30,8 +30,6 @@ This case study documents the production deployment of the Guidra backend API on
 * **Automated Provisioning**: Deployment script executes in under 30 seconds
 * **Process Recovery**: Respawn latency < 2 seconds following process crash
 
----
-
 ## 1. System Architecture
 
 Traffic passes through multi-layer defense-in-depth firewalls before reaching the Nginx reverse proxy and PM2-managed application processes:

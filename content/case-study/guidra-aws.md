@@ -26,8 +26,6 @@ _A hands-on case study of AWS infrastructure, networking, containerisation, CI/C
 > **Architecture:** Multi-AZ application instances in private subnets behind an internet-facing ALB  
 > **Stack:** AWS, Cloudflare, Docker, Nginx, React, Node.js, MongoDB Atlas, GitHub Actions
 
----
-
 ## 1. Introduction
 
 I had already worked with Linux, Docker, networking and AWS, but I wanted to understand what it actually takes to operate an application in a production environment.

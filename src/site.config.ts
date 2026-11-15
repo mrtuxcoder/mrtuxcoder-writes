@@ -5,7 +5,6 @@ export interface CategoryConfig {
 }
 
 export interface SiteConfig {
-  // Temporary project name - configurable in this single location
   siteName: string;
   siteTitle: string;
   siteDescription: string;
@@ -13,24 +12,33 @@ export interface SiteConfig {
   portfolioUrl: string;
   portfolioLabel: string;
   author: string;
+  social: {
+    github: string;
+    linkedin: string;
+    x: string;
+  };
   categories: Record<string, CategoryConfig>;
   navLinks: Array<{ label: string; href: string; external?: boolean }>;
 }
 
 export const siteConfig: SiteConfig = {
-  // Configurable project name: change here to rename across the entire site
-  siteName: 'mrtuxcoder-writes',
-  siteTitle: 'Guganraj Rengaraju | Notes & Explorations',
-  siteDescription: 'A little corner of the internet for projects, useful discoveries, personal thoughts, and things worth sharing.',
+  siteName: 'guganraj.me / notes',
+  siteTitle: 'Guganraj Rengaraju | Notes & Case Studies',
+  siteDescription: 'Case studies, architectural decisions, guides, and engineering notes by Guganraj Rengaraju.',
   siteUrl: 'https://notes.guganraj.me',
-  portfolioUrl: 'https://guganraj.me',
+  portfolioUrl: 'https://www.guganraj.me',
   portfolioLabel: 'guganraj.me',
   author: 'Guganraj Rengaraju',
+  social: {
+    github: 'https://github.com/mrtuxcoder',
+    linkedin: 'https://www.linkedin.com/in/guganraj-rengaraju/',
+    x: 'https://x.com/guganraj_k',
+  },
   categories: {
     'case-study': {
       slug: 'case-study',
       title: 'Case Studies',
-      description: "Stories of projects I've built, experiments I've run, problems I've solved, and the lessons behind them.",
+      description: "In-depth engineering breakdowns of systems, cloud infrastructure deployments, and open-source software.",
     },
     'blogs': {
       slug: 'blogs',
@@ -40,7 +48,7 @@ export const siteConfig: SiteConfig = {
     'thoughts': {
       slug: 'thoughts',
       title: 'Thoughts',
-      description: "Personal reflections, random ideas, opinions, observations, and whatever happens to be on my mind.",
+      description: "Personal reflections, ideas, opinions, observations, and engineering principles.",
     },
   },
   navLinks: [

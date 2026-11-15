@@ -12,55 +12,67 @@ const categoryConfig = siteConfig.categories[article.category];
 const categoryTitle = categoryConfig?.title || article.category;
 ---
 
-<article class="group py-5 first:pt-1 border-b border-primary/10 last:border-b-0 transition-colors">
-  <!-- Meta Row: Category + Date + Reading Time -->
-  <div class="flex flex-wrap items-center gap-2 text-xs text-secondary mb-2">
-    {showCategory && (
-      <a
-        href={`/${article.category}`}
-        class="inline-flex min-h-[24px] items-center gap-1.5 rounded-full border border-primary/10 bg-primary/[0.03] px-2.5 py-0.5 text-xs font-medium text-foreground/90 transition-colors hover:bg-primary/[0.06] hover:border-primary/20"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" aria-hidden="true"></span>
-        <span>{categoryTitle}</span>
+<article class="group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 sm:p-5 transition-all hover:border-primary/40 hover:bg-muted/40">
+  <div class="space-y-2.5">
+    <!-- Meta Row: Category + Date + Reading Time -->
+    <div class="flex flex-wrap items-center gap-2 text-xs text-secondary">
+      {showCategory && (
+        <a
+          href={`/${article.category}`}
+          class="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted px-2.5 py-0.5 text-xs font-medium text-primary hover:bg-muted/80 transition-colors"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true"></span>
+          <span>{categoryTitle}</span>
+        </a>
+      )}
+
+      {article.formattedDate && (
+        <time datetime={article.date} class="text-xs text-secondary font-medium">
+          {article.formattedDate}
+        </time>
+      )}
+
+      {article.formattedDate && <span class="text-secondary/40 text-xs">•</span>}
+
+      <span class="text-xs text-secondary font-mono font-medium">{article.readingTime}</span>
+
+      {article.draft && (
+        <span class="inline-flex items-center rounded-md border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+          Draft
+        </span>
+      )}
+    </div>
+
+    <!-- Title & Link -->
+    <h3 class="text-base sm:text-lg font-bold leading-snug text-primary group-hover:text-primary transition-colors">
+      <a href={article.url} class="focus:outline-none flex items-center justify-between gap-3">
+        <span class="line-clamp-2">{article.title}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-secondary/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
       </a>
-    )}
+    </h3>
 
-    {article.formattedDate && (
-      <time datetime={article.date} class="text-secondary font-normal">
-        {article.formattedDate}
-      </time>
-    )}
-
-    {article.formattedDate && <span class="text-primary/20">•</span>}
-
-    <span>{article.readingTime}</span>
-
-    {article.draft && (
-      <span class="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-2 py-0.2 text-[10px] font-medium text-amber-800">
-        Draft
-      </span>
+    <!-- Description -->
+    {article.description && (
+      <p class="text-sm text-secondary leading-relaxed line-clamp-2">
+        {article.description}
+      </p>
     )}
   </div>
 
-  <!-- Title -->
-  <h3 class="text-base sm:text-lg font-semibold leading-snug text-primary group-hover:text-primary/80 transition-colors">
-    <a href={article.url} class="focus:outline-none focus:underline">
-      {article.title}
-    </a>
-  </h3>
-
-  <!-- Description -->
-  {article.description && (
-    <p class="mt-1.5 text-sm text-secondary leading-relaxed line-clamp-2">
-      {article.description}
-    </p>
-  )}
-
-  <!-- Tags -->
+  <!-- Tags Row -->
   {article.tags && article.tags.length > 0 && (
-    <div class="mt-3 flex flex-wrap items-center gap-1.5">
+    <div class="mt-3 flex flex-wrap gap-1.5 pt-0.5">
       {article.tags.map((tag) => (
-        <span class="inline-flex items-center rounded-full border border-primary/10 bg-surface px-2 py-0.5 text-[11px] font-medium text-secondary">
+        <span class="rounded-md border border-border/70 bg-muted/60 px-2 py-0.5 text-[11px] font-medium text-secondary font-mono leading-tight">
           #{tag}
         </span>
       ))}

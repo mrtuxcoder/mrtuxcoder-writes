@@ -1,0 +1,113 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<button
+  type="button"
+  id="theme-toggle-btn"
+  aria-label="Toggle theme"
+  class={`group relative flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-secondary hover:bg-muted/80 hover:text-primary transition-colors cursor-pointer select-none ${className}`}
+>
+  <!-- Sun icon (shown in dark mode) -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-4 w-4 hidden dark:block transition-transform hover:rotate-45 text-amber-400"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+
+  <!-- Moon icon (shown in light mode) -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-4 w-4 block dark:hidden transition-transform hover:-rotate-12 text-slate-700"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+  <span class="sr-only">Toggle theme</span>
+</button>
+
+<script is:inline>
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+
+    btn.onclick = function (e) {
+      const isDark = document.documentElement.classList.contains('dark');
+      const nextTheme = isDark ? 'light' : 'dark';
+
+      function applyTheme() {
+        if (nextTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        try {
+          localStorage.setItem('theme', nextTheme);
+        } catch (err) {}
+      }
+
+      // If View Transitions API is not supported or user prefers reduced motion
+      if (
+        !document.startViewTransition ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        applyTheme();
+        return;
+      }
+
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX || rect.left + rect.width / 2;
+      const y = e.clientY || rect.top + rect.height / 2;
+
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      try {
+        const transition = document.startViewTransition(applyTheme);
+        transition.ready.then(function () {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                'circle(0px at ' + x + 'px ' + y + 'px)',
+                'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)',
+              ],
+            },
+            {
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              pseudoElement: '::view-transition-new(root)',
+            }
+          );
+        }).catch(function () {});
+      } catch (err) {
+        applyTheme();
+      }
+    };
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
+import PencilDivider from '../../components/PencilDivider.astro';
 import { getArticlesByCategory, getAllArticles } from '../../utils/articles';
 import { siteConfig } from '../../site.config';
 
@@ -44,50 +45,76 @@ const articles = await getArticlesByCategory(category);
 ---
 
 <BaseLayout
-  title={`${title} | ${siteConfig.siteName}`}
+  title={title}
   description={description}
 >
-  <div class="space-y-6">
+  <div class="space-y-7 sm:space-y-8">
     <!-- Category Header -->
-    <header class="border-b border-primary/10 pb-6">
-      <div class="mb-3.5 flex items-center gap-1.5 text-xs text-secondary">
+    <header class="space-y-3.5">
+      <!-- Breadcrumbs -->
+      <div class="flex items-center gap-1.5 text-xs sm:text-sm text-secondary">
         <a href="/" class="hover:text-primary transition-colors flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           <span>Home</span>
         </a>
-        <span class="text-primary/20">/</span>
+        <span class="text-secondary/40">/</span>
         <span class="text-primary font-medium">{title}</span>
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary">
             {title}
           </h1>
-          <p class="mt-2 text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">
+          <p class="mt-1.5 text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">
             {description}
           </p>
         </div>
 
         {articles.length > 0 && (
-          <span class="rounded-full border border-primary/10 bg-surface px-3 py-1 text-xs font-medium text-secondary">
+          <span class="rounded-lg border border-border bg-card px-3 py-1 text-xs font-mono font-medium text-secondary">
             {articles.length} article{articles.length === 1 ? '' : 's'}
           </span>
         )}
       </div>
+
+      <!-- Quick Category Nav Pills -->
+      <div class="flex flex-wrap items-center gap-2 pt-2">
+        <a
+          href="/"
+          class="rounded-lg border border-border bg-card px-3 py-1 text-xs sm:text-sm font-medium text-secondary hover:text-primary hover:bg-muted/70 transition-colors"
+        >
+          All
+        </a>
+        {Object.values(siteConfig.categories).map((cat) => {
+          const isCurrent = cat.slug === category;
+          return (
+            <a
+              href={`/${cat.slug}`}
+              class={`rounded-lg px-3 py-1 text-xs sm:text-sm font-medium transition-colors ${
+                isCurrent
+                  ? 'border border-primary/20 bg-muted text-primary font-semibold shadow-xs'
+                  : 'border border-border bg-card text-secondary hover:text-primary hover:bg-muted/70'
+              }`}
+            >
+              {cat.title}
+            </a>
+          );
+        })}
+      </div>
     </header>
+
+    <PencilDivider />
 
     <!-- Articles List -->
     {articles.length === 0 ? (
-      <div class="py-16 text-center">
-        <p class="text-sm text-secondary">
-          Articles coming soon.
-        </p>
+      <div class="py-12 text-center rounded-xl border border-dashed border-border">
+        <p class="text-sm text-secondary">Articles coming soon in this section.</p>
       </div>
     ) : (
-      <div class="divide-y divide-primary/10">
+      <div class="space-y-3.5">
         {articles.map((article) => (
           <ArticleCard article={article} showCategory={false} />
         ))}

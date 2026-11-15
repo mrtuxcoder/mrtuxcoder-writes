@@ -33,8 +33,6 @@ Once the application was working locally, I wanted to go beyond application deve
 * **Private Networking**: Tailscale for secure server management and deployment
 * **Public Ingress**: Cloudflare Tunnel for outbound HTTPS access without open inbound ports
 
----
-
 ## 2. The Final Architecture
 
 The deployment is defined by a Docker Compose configuration. The Linux homelab server runs the frontend, backend, and MongoDB as separate containers. Public traffic reaches the homelab through Cloudflare Tunnel.

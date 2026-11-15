@@ -30,8 +30,6 @@ The project was built as a practical systems engineering and DevOps exercise, fo
 * **Source-Free Installer**: Automated installation script that provisions `/opt/lanbox` and starts services without requiring source code cloning.
 * **Multi-Tenant Homelab**: Co-located alongside Chronicle on a single Linux host with zero port conflicts.
 
----
-
 ## 1. System Architecture
 
 The overall request lifecycle travels from private client devices over standard LAN protocols through an Nginx edge container into the backend filesystem handler:

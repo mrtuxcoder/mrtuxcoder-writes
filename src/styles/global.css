@@ -2,30 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .site-container {
-    @apply w-full max-w-[70.9rem] mx-auto px-5 sm:px-7;
-  }
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #0f172a;        /* deep rich slate-900 */
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --secondary: #475569;       /* slate-600 */
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: rgba(0, 0, 0, 0.14);
+  --ring: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --destructive: #ef4444;
+  --section-surface: #f8fafc;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #1c212b;
-  --section-surface: #fafafa;
-  --primary: #1c212b;
-  --primary-foreground: #fafafa;
-  --secondary: #677084;
-  --secondary-foreground: #171717;
-  --muted: #f5f5f5;
-  --muted-foreground: #737373;
-  --border: #e5e5e5;
-  --radius: 0.625rem;
+.dark {
+  --background: #090a0c;
+  --foreground: #f8fafc;        /* high-clarity crisp slate-50 */
+  --primary: #f8fafc;
+  --primary-foreground: #090a0c;
+  --secondary: #cbd5e1;       /* bright readable slate-300 */
+  --secondary-foreground: #f1f5f9;
+  --muted: #15181e;
+  --muted-foreground: #94a3b8;
+  --accent: #1e222b;
+  --accent-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.14); /* clear visible borders */
+  --input: rgba(255, 255, 255, 0.18);
+  --ring: #38bdf8;
+  --card: #12141a;            /* clean elevated surface */
+  --card-foreground: #f8fafc;
+  --popover: #12141a;
+  --popover-foreground: #f8fafc;
+  --destructive: #f87171;
+  --section-surface: #12141a;
 }
 
 html {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -42,37 +68,82 @@ body {
   flex-direction: column;
   background-color: var(--background);
   color: var(--foreground);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Restrained selection highlight */
+/* Circular View Transition for dark/light mode */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* Selection highlight */
 ::selection {
-  background-color: rgba(28, 33, 43, 0.1);
-  color: var(--primary);
+  background-color: rgba(16, 185, 129, 0.25);
+  color: var(--foreground);
+}
+
+.dark ::selection {
+  background-color: rgba(16, 185, 129, 0.35);
+  color: var(--foreground);
 }
 
 /* Accessible focus outlines */
 :focus-visible {
-  outline: 2px solid rgba(28, 33, 43, 0.4);
+  outline: 2px solid rgba(16, 185, 129, 0.5);
   outline-offset: 2px;
 }
 
-/* Custom code block styling matching portfolio */
+/* Custom code block styling */
 pre.astro-code {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  padding: 1rem 1.25rem;
-  border-radius: 0.5rem;
+  position: relative;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.125rem 1.375rem;
+  border-radius: 0.75rem;
   border: 1px solid var(--border);
-  background-color: var(--section-surface) !important;
   overflow-x: auto;
-  font-size: 0.875rem;
-  line-height: 1.65;
+  font-size: 0.925rem;
+  line-height: 1.7;
 }
 
 pre.astro-code code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   background-color: transparent !important;
+  border: none !important;
   padding: 0 !important;
+}
+
+/* Dual Shiki Theme Integration - Crisp contrast in dark mode */
+html.dark .astro-code {
+  color: var(--shiki-dark) !important;
+  background-color: #12141a !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: transparent !important;
+}
+
+html:not(.dark) .astro-code {
+  color: var(--shiki-light) !important;
+  background-color: #f8fafc !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html:not(.dark) .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
 }
 
 /* Table container for responsive horizontal scrolling */
@@ -84,8 +155,8 @@ pre.astro-code code {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background-color: var(--background);
+  border-radius: 0.75rem;
+  background-color: var(--card);
 }
 
 .table-wrapper table {
@@ -106,7 +177,7 @@ pre.astro-code code {
   border-bottom: 0;
 }
 
-/* Prevent long inline code tokens in prose paragraphs/lists from overflowing mobile */
+/* Prevent long inline code tokens from overflowing mobile */
 .prose :where(p, li) > code {
   overflow-wrap: anywhere;
 }
@@ -115,10 +186,10 @@ pre.astro-code code {
 .prose img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   border: 1px solid var(--border);
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
 }
 
 /* Subtle scrollbars for pre blocks */
@@ -131,12 +202,18 @@ pre::-webkit-scrollbar-track {
 }
 
 pre::-webkit-scrollbar-thumb {
-  background-color: rgba(28, 33, 43, 0.15);
+  background-color: rgba(140, 140, 140, 0.25);
   border-radius: 9999px;
 }
 
 pre::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(28, 33, 43, 0.3);
+  background-color: rgba(140, 140, 140, 0.45);
+}
+
+/* Remove straight hr dividers that look harsh/bad in dark mode */
+.prose hr,
+hr {
+  display: none !important;
 }
 
 /* Heading anchor styling */
@@ -147,7 +224,7 @@ pre::-webkit-scrollbar-thumb:hover {
 }
 
 .heading-anchor:hover {
-  color: var(--primary);
+  color: #10b981;
 }
 
 /* Motion reduction */

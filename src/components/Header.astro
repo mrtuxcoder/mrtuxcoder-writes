@@ -9,7 +9,7 @@ interface Props {
 const { currentPath = '' } = Astro.props;
 ---
 
-<header class="w-full pt-4 pb-3 border-b border-border/60 transition-colors">
+<header class="w-full pt-4 pb-3 border-b border-border/50 transition-colors">
   <div class="flex items-center justify-between gap-3">
     <!-- Brand Group -->
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -19,7 +19,7 @@ const { currentPath = '' } = Astro.props;
         class="group flex items-center gap-2 text-sm font-medium text-primary transition-colors focus-visible:outline-none"
         aria-label="Notes Homepage"
       >
-        <span class="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-muted/60 text-primary transition-transform group-hover:scale-105">
+        <span class="flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-muted/50 text-primary transition-transform group-hover:scale-105">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4"
@@ -46,7 +46,7 @@ const { currentPath = '' } = Astro.props;
       <button
         type="button"
         data-open-search
-        class="h-10 sm:h-10.5 w-44 sm:w-64 md:w-72 flex items-center justify-between rounded-lg border border-border bg-card hover:bg-muted/60 px-3 sm:px-3.5 text-xs sm:text-sm text-secondary hover:text-primary transition-all cursor-pointer shadow-xs focus:outline-none"
+        class="h-10 sm:h-10.5 w-44 sm:w-64 md:w-72 flex items-center justify-between rounded-lg border border-border/80 bg-card hover:bg-muted/60 px-3 sm:px-3.5 text-xs sm:text-sm text-secondary hover:text-primary transition-all cursor-pointer shadow-xs focus:outline-none"
         aria-label="Search articles"
       >
         <div class="flex items-center gap-2.5 truncate">
@@ -56,7 +56,7 @@ const { currentPath = '' } = Astro.props;
           <span class="hidden sm:inline text-xs sm:text-sm text-secondary/80 font-normal">Search notes & case studies...</span>
           <span class="inline sm:hidden text-xs text-secondary/80 font-normal">Search notes...</span>
         </div>
-        <kbd class="hidden sm:inline-block rounded border border-border bg-muted/70 px-1.5 py-0.5 font-mono text-[11px] text-secondary leading-none shadow-2xs">
+        <kbd class="hidden sm:inline-block rounded border border-border/60 bg-muted/60 px-1.5 py-0.5 font-mono text-[11px] text-secondary/70 leading-none shadow-2xs">
           /
         </kbd>
       </button>

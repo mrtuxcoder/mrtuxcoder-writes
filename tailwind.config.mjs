@@ -1,5 +1,14 @@
 import typography from '@tailwindcss/typography';
 
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `color-mix(in srgb, var(${variableName}) calc(${opacityValue} * 100%), transparent)`;
+    }
+    return `var(${variableName})`;
+  };
+}
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
@@ -7,26 +16,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        surface: 'var(--section-surface)',
+        background: withOpacity('--background'),
+        foreground: withOpacity('--foreground'),
+        surface: withOpacity('--section-surface'),
         card: {
-          DEFAULT: 'var(--card)',
-          foreground: 'var(--card-foreground)',
+          DEFAULT: withOpacity('--card'),
+          foreground: withOpacity('--card-foreground'),
         },
         primary: {
-          DEFAULT: 'var(--primary)',
-          foreground: 'var(--primary-foreground)',
+          DEFAULT: withOpacity('--primary'),
+          foreground: withOpacity('--primary-foreground'),
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          DEFAULT: withOpacity('--secondary'),
+          foreground: withOpacity('--secondary-foreground'),
         },
         muted: {
-          DEFAULT: 'var(--muted)',
-          foreground: 'var(--muted-foreground)',
+          DEFAULT: withOpacity('--muted'),
+          foreground: withOpacity('--muted-foreground'),
         },
-        border: 'var(--border)',
+        border: withOpacity('--border'),
         accent: {
           emerald: '#10b981',
         },
@@ -182,7 +191,7 @@ export default {
             th: {
               color: 'var(--primary)',
               fontWeight: '600',
-              borderBottom: '2px solid var(--border)',
+              borderBottom: '1px solid var(--border)',
               padding: '0.5rem 0.75rem',
               textAlign: 'left',
               backgroundColor: 'var(--muted)',

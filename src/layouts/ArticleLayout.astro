@@ -48,7 +48,7 @@ const categoryTitle = categoryConfig?.title || article.category;
       <div class="flex flex-wrap items-center gap-2">
         <a
           href={`/${article.category}`}
-          class="inline-flex min-h-[22px] items-center gap-1.5 rounded-md border border-border/70 bg-muted/50 px-2 py-0.5 text-xs font-medium text-primary hover:bg-muted transition-colors"
+          class="inline-flex min-h-[22px] items-center gap-1.5 rounded-md bg-muted/60 px-2 py-0.5 text-xs font-medium text-secondary hover:text-primary hover:bg-muted transition-colors"
         >
           <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true"></span>
           <span>{categoryTitle}</span>
@@ -76,21 +76,21 @@ const categoryTitle = categoryConfig?.title || article.category;
       <!-- Meta Row -->
       <div class="flex flex-wrap items-center gap-2 text-xs text-secondary pt-0.5 font-medium">
         {article.formattedDate && (
-          <time datetime={article.date} class="text-secondary">
+          <time datetime={article.date} class="text-secondary/70 font-mono text-[11px]">
             {article.formattedDate}
           </time>
         )}
 
         {article.formattedDate && <span class="text-secondary/40">•</span>}
 
-        <span class="font-mono text-[11px]">{article.readingTime}</span>
+        <span class="font-mono text-[11px] text-secondary/70">{article.readingTime}</span>
 
         {article.tags && article.tags.length > 0 && (
           <>
             <span class="text-secondary/40">•</span>
             <div class="flex flex-wrap items-center gap-1">
               {article.tags.map((tag) => (
-                <span class="rounded-md border border-border/70 bg-muted/40 px-1.5 py-0.5 text-[10px] font-mono text-secondary">
+                <span class="rounded px-1.5 py-0.5 text-[10px] font-mono text-secondary/70 bg-muted/40 border border-border/40">
                   #{tag}
                 </span>
               ))}
@@ -117,9 +117,9 @@ const categoryTitle = categoryConfig?.title || article.category;
         {prevArticle ? (
           <a
             href={prevArticle.url}
-            class="group flex flex-col justify-between rounded-xl border border-border/80 bg-card/60 p-3 sm:p-3.5 transition-all hover:border-primary/25 hover:bg-muted/40"
+            class="group flex flex-col justify-between rounded-[14px] border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/20 hover:bg-muted/40"
           >
-            <span class="flex items-center gap-1 text-[11px] text-secondary mb-1">
+            <span class="flex items-center gap-1 text-[11px] text-secondary/70 mb-1">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
               </svg>
@@ -136,9 +136,9 @@ const categoryTitle = categoryConfig?.title || article.category;
         {nextArticle ? (
           <a
             href={nextArticle.url}
-            class="group flex flex-col justify-between items-end text-right rounded-xl border border-border/80 bg-card/60 p-3 sm:p-3.5 transition-all hover:border-primary/25 hover:bg-muted/40"
+            class="group flex flex-col justify-between items-end text-right rounded-[14px] border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/20 hover:bg-muted/40"
           >
-            <span class="flex items-center gap-1 text-[11px] text-secondary mb-1">
+            <span class="flex items-center gap-1 text-[11px] text-secondary/70 mb-1">
               <span>Next Article</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -157,7 +157,7 @@ const categoryTitle = categoryConfig?.title || article.category;
       <div class="text-center pt-1">
         <a
           href={`/${article.category}`}
-          class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-secondary hover:text-primary hover:bg-muted/60 transition-colors"
+          class="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-card px-3 py-1.5 text-xs font-medium text-secondary hover:text-primary hover:bg-muted/60 transition-colors"
         >
           <span>View all {categoryTitle}</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
